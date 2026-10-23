@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WM Quest</title>
+  <link rel="icon" href="./images/wm-coding-badge.png">
+
+  <!-- Fonts: Barlow Condensed (headings) and Barlow (text), close to the West-MEC brand fonts. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,700;1,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./global.css">
+
+  <script src="./data.js" defer></script>
+  <script src="./db.js" defer></script>
+  <script src="./game.js" defer></script>
+  <script src="./check.js" defer></script>
+</head>
+<body>
+
+  <!-- ===== Top bar ===== -->
+  <header class="top-bar">
+    <img src="./images/wm-coding-badge.png" alt="West-MEC Coding" class="badge">
+    <p class="brand">WM <span>Quest</span></p>
+    <button id="menu-button" type="button" class="btn btn-small btn-light" hidden>« Main menu</button>
+  </header>
+
+  <!-- Database status: game.js fills this in from openDB(). -->
+  <p id="db-status" class="db-status">Checking the database...</p>
+
+  <!-- ===================== SCREEN 1: Main menu ===================== -->
+  <main id="menu-screen" class="screen menu">
+    <section class="hero-banner">
+      <h1>WM <span>Quest</span></h1>
+      <p>Make a hero. Go into the dungeon. Come back rich (or don't come back).</p>
+      <button id="new-hero-button" type="button" class="btn btn-big">+ New hero</button>
+    </section>
+
+    <section class="panel">
+      <h2>Your heroes</h2>
+      <ul id="hero-cards" class="hero-cards"><li class="muted">Loading...</li></ul>
+    </section>
+
+    <!-- Spec check (for you AND your teacher) -->
+    <section class="panel spec">
+      <h2>Spec Check</h2>
+      <div class="row">
+        <p class="muted grow">Compares what is really in questDB with the DATA SPEC in your packet. It only reads, never changes your data.</p>
+        <button id="check-button" type="button" class="btn btn-small">Check my data</button>
+      </div>
+      <ul id="check-results" class="check-results"></ul>
+    </section>
+  </main>
+
+  <!-- ===================== SCREEN 2: Make a hero ===================== -->
+  <main id="create-screen" class="screen create" hidden>
+    <section class="panel">
+      <h2>1. Name and class</h2>
+      <label>
+        Hero name
+        <input id="new-name" type="text" maxlength="16" placeholder="Hero name">
+      </label>
+      <div id="class-cards" class="class-cards"></div>
+    </section>
+
+    <section class="panel">
+      <h2>2. Roll and place your stats</h2>
+      <p class="muted">Roll 6 numbers, then <b>drag</b> each one onto the attribute you want. (Or click a number, then click an attribute.) Drag onto a filled one to swap.</p>
+      <div class="row">
+        <button id="roll-button" type="button" class="btn">🎲 Roll stats</button>
+        <button id="suggest-button" type="button" class="btn btn-ghost" disabled>Suggest for my class</button>
+      </div>
+      <div id="dice-pool" class="dice-pool"></div>
+      <div id="stat-slots" class="stat-slots"></div>
+    </section>
+
+    <section class="panel create-summary">
+      <h2>3. Ready?</h2>
+      <div id="create-preview" class="muted">Pick a class and place all 6 stats.</div>
+      <p id="create-error" class="error"></p>
+      <div class="row">
+        <button id="back-button" type="button" class="btn btn-ghost">« Back</button>
+        <button id="create-button" type="button" class="btn grow" disabled>Create hero »</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== SCREEN 3: The game ===================== -->
+  <main id="game-screen" class="screen game" hidden>
+
+    <!-- Character sheet: everything here comes from your database. -->
+    <aside id="sheet" class="panel sheet"></aside>
+
+    <!-- The field: the story, the monster, and your choices. -->
+    <section class="field">
+      <div id="scene" class="scene">
+        <p id="scene-title" class="scene-title">The dungeon</p>
+        <div id="monster" class="monster" hidden></div>
+        <div class="story-wrap"><ol id="story" class="story"></ol></div>
+      </div>
+      <div id="actions" class="actions"></div>
+    </section>
+  </main>
+
+  <footer class="footer">West-MEC Coding · Year 2 · IndexedDB</footer>
+</body>
+</html>
